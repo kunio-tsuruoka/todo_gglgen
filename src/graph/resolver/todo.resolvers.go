@@ -7,6 +7,7 @@ import (
 	"context"
 	"todo/graph/generated"
 	"todo/graph/model"
+	"errors"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
@@ -18,11 +19,24 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
-     return r.todoRepository.Destroy(input.ID)
+	return r.todoRepository.Destroy(input.ID)
+}
+
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTodo) (bool, error) {
+	_, err := r.todoRepository.FindOne(input.ID)
+	if err != nil {
+		return false, errors.New("該当するtodoがありません")
+	}
+	r.todoRepository.Update(input)
+	return true, nil
 }
 
 func (r *queryResolver) Todo(ctx context.Context, id int) (*model.Todo, error) {
-	return r.todoRepository.FindOne(id)	
+	todo, err := r.todoRepository.FindOne(id)
+	if err != nil {
+		return nil, errors.New("該当するtodoがありません")
+	}
+	return todo, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {

@@ -6,6 +6,7 @@ import (
 type TodoRepository interface {
 	Save(todo *model.Todo) (*model.Todo, error)
 	GetAll() ([]*model.Todo, error)
+	Update(input model.UpdateTodo) (bool,error)
 	FindOne(id int) (*model.Todo, error)
 	Destroy(id int) (*model.Todo, error)
 }
@@ -40,6 +41,13 @@ func (repo *todoRepository)FindOne(id int) (*model.Todo, error) {
 		return nil, err
 	}
 	return todo, nil
+}
+func (repo *todoRepository)Update(input model.UpdateTodo) (bool, error) {
+
+	if err := repo.db.Model(model.Todo{}).Where("id = ?", input.ID).Updates(input).Error; err != nil {
+		return false, err
+	}
+	return true, nil
 }
 func (repo *todoRepository)Destroy(id int) (*model.Todo, error) {
 	var todo *model.Todo

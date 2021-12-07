@@ -12,9 +12,17 @@ type NewTodo struct {
 }
 
 type Todo struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
+	ID     int    `json:"id"`
+	Title  string `json:"title"`
+	Desc   string `json:"desc"`
+	IsDone bool   `json:"is_done"`
+}
+
+type UpdateTodo struct {
+	ID     int     `json:"id"`
+	Title  *string `json:"title"`
+	Desc   *string `json:"desc"`
+	IsDone *bool   `json:"is_done"`
 }
 
 type User struct {
