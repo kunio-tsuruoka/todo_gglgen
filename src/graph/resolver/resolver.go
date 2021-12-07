@@ -1,5 +1,7 @@
 package resolver
-import 	"gorm.io/gorm"
+import 	(
+	"todo/repository"
+)
 
 
 // This file will not be regenerated automatically.
@@ -7,5 +9,10 @@ import 	"gorm.io/gorm"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct{
-	DB *gorm.DB
+    todoRepository repository.TodoRepository
+}
+func NewResolver(todoRepository repository.TodoRepository) *Resolver {
+	return &Resolver{
+		todoRepository: todoRepository,
+	}
 }

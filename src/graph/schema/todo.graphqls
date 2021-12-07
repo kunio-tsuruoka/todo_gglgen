@@ -9,7 +9,7 @@ type Todo {
 }
 
 type Query {
-  todo(id: ID!): Todo!
+  todo(id: Int!): Todo!
   todos: [Todo!]!
 }
 

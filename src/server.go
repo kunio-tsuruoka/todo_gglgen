@@ -6,6 +6,7 @@ import (
 	"os"
 	"todo/graph/generated"
 	"todo/graph/resolver"
+	"todo/repository"
 	// "github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -29,7 +30,9 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{db}}))
+	repo := repository.NewTodoRepository(db)
+	resolver := resolver.NewResolver(repo)
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

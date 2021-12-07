@@ -14,34 +14,19 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 		Title: input.Title,
 		Desc:  input.Desc,
 	}
-	if err := r.DB.Create(&todo).Error; err != nil {
-		return nil, err
-	}
-	return todo, nil
+	return r.todoRepository.Save(todo)
 }
 
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error) {
-	var todo *model.Todo
-	if err := r.DB.Delete(&todo, input.ID).Error; err != nil {
-		return nil, err
-	}	
-	return todo, nil
+     return r.todoRepository.Destroy(input.ID)
 }
 
-func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
-	var todo *model.Todo
-	if err := r.DB.First(&todo, id).Error; err != nil {
-		return nil, err
-	}
-	return todo, nil
+func (r *queryResolver) Todo(ctx context.Context, id int) (*model.Todo, error) {
+	return r.todoRepository.FindOne(id)	
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	var todos []*model.Todo
-	if err := r.DB.Find(&todos).Error; err != nil {
-		return nil, err
-	}
-	return todos, nil
+	return r.todoRepository.GetAll()
 }
 
 // Mutation returns generated.MutationResolver implementation.

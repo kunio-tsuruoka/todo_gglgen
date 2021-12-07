@@ -49,7 +49,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Todo  func(childComplexity int, id string) int
+		Todo  func(childComplexity int, id int) int
 		Todos func(childComplexity int) int
 	}
 
@@ -70,7 +70,7 @@ type MutationResolver interface {
 	DeleteTodo(ctx context.Context, input model.DeleteTodo) (*model.Todo, error)
 }
 type QueryResolver interface {
-	Todo(ctx context.Context, id string) (*model.Todo, error)
+	Todo(ctx context.Context, id int) (*model.Todo, error)
 	Todos(ctx context.Context) ([]*model.Todo, error)
 }
 
@@ -123,7 +123,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Todo(childComplexity, args["id"].(string)), true
+		return e.complexity.Query.Todo(childComplexity, args["id"].(int)), true
 
 	case "Query.todos":
 		if e.complexity.Query.Todos == nil {
@@ -242,7 +242,7 @@ type Todo {
 }
 
 type Query {
-  todo(id: ID!): Todo!
+  todo(id: Int!): Todo!
   todos: [Todo!]!
 }
 
@@ -320,10 +320,10 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 func (ec *executionContext) field_Query_todo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["id"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -479,7 +479,7 @@ func (ec *executionContext) _Query_todo(ctx context.Context, field graphql.Colle
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Todo(rctx, args["id"].(string))
+		return ec.resolvers.Query().Todo(rctx, args["id"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
