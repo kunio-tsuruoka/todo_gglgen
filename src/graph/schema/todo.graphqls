@@ -4,9 +4,8 @@
 
 type Todo {
   id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+  title: String!
+  desc: String!
 }
 
 type Query {
@@ -14,8 +13,8 @@ type Query {
 }
 
 input NewTodo {
-  text: String!
-  userId: String!
+  title: String!
+  desc: String!
 }
 
 type Mutation {

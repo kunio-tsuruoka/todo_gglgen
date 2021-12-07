@@ -15,7 +15,11 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
+	var todos []*model.Todo
+	if err := r.DB.Find(&todos).Error; err != nil {
+		return nil, err
+	}
+	return todos, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
