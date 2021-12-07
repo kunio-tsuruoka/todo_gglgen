@@ -3,7 +3,7 @@
 package model
 
 type DeleteTodo struct {
-	ID string `json:"id"`
+	ID int `json:"id"`
 }
 
 type NewTodo struct {
@@ -12,7 +12,7 @@ type NewTodo struct {
 }
 
 type Todo struct {
-	ID    string `json:"id"`
+	ID    int    `json:"id"`
 	Title string `json:"title"`
 	Desc  string `json:"desc"`
 }

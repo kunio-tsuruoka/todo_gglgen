@@ -5,13 +5,19 @@ package resolver
 
 import (
 	"context"
-	"fmt"
 	"todo/graph/generated"
 	"todo/graph/model"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
+	todo := &model.Todo{
+		Title: input.Title,
+		Desc:  input.Desc,
+	}
+	if err := r.DB.Create(&todo).Error; err != nil {
+		return nil, err
+	}
+	return todo, nil
 }
 
 func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
@@ -25,7 +31,7 @@ func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	var todos []*model.Todo
 	if err := r.DB.Find(&todos).Error; err != nil {
-		return nil,err
+		return nil, err
 	}
 	return todos, nil
 }

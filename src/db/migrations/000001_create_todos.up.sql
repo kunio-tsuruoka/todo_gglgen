@@ -1,5 +1,5 @@
 CREATE TABLE `todos` (
-  `id` varchar(64) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL NULL,
   `desc` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

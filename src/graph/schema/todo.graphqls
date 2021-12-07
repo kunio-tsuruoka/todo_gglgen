@@ -3,7 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 type Todo {
-  id: ID!
+  id:Int! 
   title: String!
   desc: String!
 }
@@ -19,7 +19,7 @@ input NewTodo {
 }
 
 input DeleteTodo {
-  id: ID!
+  id: Int!
 }
 
 type Mutation {
