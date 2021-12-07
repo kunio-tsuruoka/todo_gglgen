@@ -4,9 +4,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"todo/graph"
 	"todo/graph/generated"
-
+	"todo/graph/resolver"
+	// "github.com/gin-gonic/gin"
+	// "github.com/joho/godotenv"
+	// "gorm.io/driver/mysql"
+	// "gorm.io/gorm"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 )
@@ -19,7 +22,7 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

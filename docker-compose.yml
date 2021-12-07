@@ -6,7 +6,9 @@ services:
       dockerfile: ./Dockerfile
     tty: true 
     volumes:
-      - ./src:/go/src 
+      - ./src:/go/src
+    ports:
+      - '8080:8080' 
   # MySQL
   db:
     image: mysql:5.7
