@@ -1,7 +1,7 @@
 BEGIN;
 CREATE TABLE IF NOT EXISTS `todos` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `desc` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_done` tinyint(1) NOT NULL DEFAULT '0',
   `user_id` int NOT NULL,
