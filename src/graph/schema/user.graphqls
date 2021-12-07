@@ -1,5 +1,29 @@
 
 type User {
-  id: ID!
+  id: Int!
   name: String!
+}
+
+
+extend type Query {
+  user(id: Int!): User!
+  users: [User!]!
+}
+
+input NewUser {
+  name: String!
+}
+
+input UpdateUser {
+  id: Int!
+  name: String
+}
+input DeleteUser {
+  id: Int!
+}
+
+extend type Mutation {
+  createUser(input: NewUser!): User!
+  deleteUser(input: DeleteUser!): User!
+  updateUser(input: UpdateUser!): Boolean!
 }

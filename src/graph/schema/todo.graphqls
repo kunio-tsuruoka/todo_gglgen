@@ -7,9 +7,10 @@ type Todo {
   title: String!
   desc: String!
   is_done: Boolean!
+  user_id: Int!
 }
 
-type Query {
+extend type Query {
   todo(id: Int!): Todo!
   todos: [Todo!]!
 }
@@ -17,6 +18,7 @@ type Query {
 input NewTodo {
   title: String!
   desc: String!
+  user_id: Int!
 }
 
 input UpdateTodo {
@@ -29,7 +31,7 @@ input DeleteTodo {
   id: Int!
 }
 
-type Mutation {
+extend type Mutation {
   createTodo(input: NewTodo!): Todo!
   deleteTodo(input: DeleteTodo!): Todo!
   updateTodo(input: UpdateTodo!): Boolean!

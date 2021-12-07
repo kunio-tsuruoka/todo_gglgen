@@ -30,8 +30,9 @@ func main() {
 		port = defaultPort
 	}
 
-	repo := repository.NewTodoRepository(db)
-	resolver := resolver.NewResolver(repo)
+	todoRepo := repository.NewTodoRepository(db)
+	useRepo := repository.NewUserRepository(db)
+	resolver := resolver.NewResolver(todoRepo, useRepo)
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

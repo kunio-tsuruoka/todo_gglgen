@@ -5,15 +5,16 @@ package resolver
 
 import (
 	"context"
+	"errors"
 	"todo/graph/generated"
 	"todo/graph/model"
-	"errors"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	todo := &model.Todo{
 		Title: input.Title,
 		Desc:  input.Desc,
+		UserID: input.UserID,
 	}
 	return r.todoRepository.Save(todo)
 }

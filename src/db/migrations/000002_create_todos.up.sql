@@ -1,10 +1,10 @@
 BEGIN;
 CREATE TABLE IF NOT EXISTS `todos` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL NULL,
-  `desc` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL NULL,
+  `title` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `desc` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_done` tinyint(1) NOT NULL DEFAULT '0',
-  `user_id` int NOT NULL NULL,
+  `user_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

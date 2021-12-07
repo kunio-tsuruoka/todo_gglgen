@@ -6,9 +6,18 @@ type DeleteTodo struct {
 	ID int `json:"id"`
 }
 
+type DeleteUser struct {
+	ID int `json:"id"`
+}
+
 type NewTodo struct {
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
+	Title  string `json:"title"`
+	Desc   string `json:"desc"`
+	UserID int    `json:"user_id"`
+}
+
+type NewUser struct {
+	Name string `json:"name"`
 }
 
 type Todo struct {
@@ -16,6 +25,7 @@ type Todo struct {
 	Title  string `json:"title"`
 	Desc   string `json:"desc"`
 	IsDone bool   `json:"is_done"`
+	UserID int    `json:"user_id"`
 }
 
 type UpdateTodo struct {
@@ -25,7 +35,12 @@ type UpdateTodo struct {
 	IsDone *bool   `json:"is_done"`
 }
 
+type UpdateUser struct {
+	ID   int     `json:"id"`
+	Name *string `json:"name"`
+}
+
 type User struct {
-	ID   string `json:"id"`
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
