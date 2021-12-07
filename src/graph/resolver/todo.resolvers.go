@@ -14,10 +14,18 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *queryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
+	var todo *model.Todo
+	if err := r.DB.First(&todo, id).Error; err != nil {
+		return nil, err
+	}
+	return todo, nil
+}
+
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	var todos []*model.Todo
 	if err := r.DB.Find(&todos).Error; err != nil {
-		return nil, err
+		return nil,err
 	}
 	return todos, nil
 }

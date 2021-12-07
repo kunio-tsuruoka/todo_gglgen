@@ -2,9 +2,13 @@
 
 package model
 
+type DeleteTodo struct {
+	ID string `json:"id"`
+}
+
 type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+	Title string `json:"title"`
+	Desc  string `json:"desc"`
 }
 
 type Todo struct {

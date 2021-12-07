@@ -9,12 +9,17 @@ type Todo {
 }
 
 type Query {
+  todo(id: ID!): Todo!
   todos: [Todo!]!
 }
 
 input NewTodo {
   title: String!
   desc: String!
+}
+
+input DeleteTodo {
+  id: ID!
 }
 
 type Mutation {
