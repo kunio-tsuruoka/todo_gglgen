@@ -14,7 +14,7 @@ func UsersByIDs(db *gorm.DB) *dataloader_gen.UserLoader {
 		Fetch: func(keys []int) ([]*model.User, []error) {
 
 			var records []*model.User
-			if err := db.Debug().Find(&records, keys).Error; err != nil {
+			if err := db.Find(&records, keys).Error; err != nil {
 				return nil, []error{err}
 			}
 
