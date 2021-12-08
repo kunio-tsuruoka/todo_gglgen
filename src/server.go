@@ -8,6 +8,7 @@ import (
 	"todo/graph/resolver"
 	"todo/repository"
 	// "github.com/gin-gonic/gin"
+	"todo/dataloader"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -33,7 +34,14 @@ func main() {
 	todoRepo := repository.NewTodoRepository(db)
 	useRepo := repository.NewUserRepository(db)
 	resolver := resolver.NewResolver(todoRepo, useRepo)
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolver}))
+
+	srv := dataloader.DataLoaderMiddleware(db,
+		handler.NewDefaultServer(
+			generated.NewExecutableSchema(
+				generated.Config{Resolvers: resolver},
+			),
+		),
+	)
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
@@ -50,3 +58,5 @@ func ConnectDatabase(con string) (*gorm.DB, error) {
 
 	return db, nil
 }
+
+

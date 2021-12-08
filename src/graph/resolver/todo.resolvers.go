@@ -8,12 +8,13 @@ import (
 	"errors"
 	"todo/graph/generated"
 	"todo/graph/model"
+	"todo/dataloader"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	todo := &model.Todo{
-		Title: input.Title,
-		Desc:  input.Desc,
+		Title:  input.Title,
+		Desc:   input.Desc,
 		UserID: input.UserID,
 	}
 	return r.todoRepository.Save(todo)
@@ -44,11 +45,19 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todoRepository.GetAll()
 }
 
+func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
+	return dataloader.For(ctx).UsersByIDs.Load(obj.UserID)
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
+// Todo returns generated.TodoResolver implementation.
+func (r *Resolver) Todo() generated.TodoResolver { return &todoResolver{r} }
+
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type todoResolver struct{ *Resolver }

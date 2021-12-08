@@ -9,5 +9,5 @@ RUN apk upgrade --update && \
   apk --no-cache add git alpine-sdk
 RUN go get github.com/cosmtrek/air 
 RUN go get github.com/99designs/gqlgen
-RUN go run github.com/99designs/gqlgen init
+RUN go run github.com/99designs/gqlgen init && go get github.com/vektah/dataloaden
 RUN go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@latest

@@ -26,6 +26,7 @@ type Todo struct {
 	Desc   string `json:"desc"`
 	IsDone bool   `json:"is_done"`
 	UserID int    `json:"user_id"`
+	User   *User  `json:"user"`
 }
 
 type UpdateTodo struct {
@@ -41,6 +42,7 @@ type UpdateUser struct {
 }
 
 type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID    int     `json:"id"`
+	Name  string  `json:"name"`
+	Todos []*Todo `json:"todos"`
 }

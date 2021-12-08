@@ -5,8 +5,11 @@ package resolver
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"todo/graph/generated"
 	"todo/graph/model"
+	"todo/dataloader"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
@@ -25,9 +28,22 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 }
 
 func (r *queryResolver) User(ctx context.Context, id int) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
+	user, err := r.userRepository.FindOne(id)
+	if err != nil {
+		return nil, errors.New("該当するuserがありません")
+	}
+	return user, nil
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.userRepository.GetAll()
 }
+
+func (r *userResolver) Todos(ctx context.Context, obj *model.User) ([]*model.Todo, error) {
+	return dataloader.For(ctx).TodosByUserIDs.Load(obj.ID)
+}
+
+// User returns generated.UserResolver implementation.
+func (r *Resolver) User() generated.UserResolver { return &userResolver{r} }
+
+type userResolver struct{ *Resolver }
