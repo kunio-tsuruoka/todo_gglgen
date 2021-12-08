@@ -5,6 +5,7 @@ import (
 	"todo/dataloader/dataloader_gen"
 	"todo/graph/model"
 	"gorm.io/gorm"
+	"todo/repository"
 )
 
 func UsersByIDs(db *gorm.DB) *dataloader_gen.UserLoader {
@@ -12,22 +13,22 @@ func UsersByIDs(db *gorm.DB) *dataloader_gen.UserLoader {
 		MaxBatch: 100,
 		Wait:     1 * time.Millisecond,
 		Fetch: func(keys []int) ([]*model.User, []error) {
-
-			var records []*model.User
-			if err := db.Find(&records, keys).Error; err != nil {
+			repo := repository.NewUserRepository(db)
+			users, err := repo.GetAllByUserIDs(keys) 
+			if err != nil {
 				return nil, []error{err}
 			}
 
 			usersByIDs := map[int]*model.User{}
-			for _, user := range records {
+			for _, user := range users {
 				usersByIDs[user.ID] = user
 			}
 
-			users := make([]*model.User, len(keys))
+			results := make([]*model.User, len(keys))
 			for i, id := range keys {
-				users[i] = usersByIDs[id]
+				results[i] = usersByIDs[id]
 			}
-			return users, nil
+			return results, nil
 		},
 	})
 }

@@ -14,7 +14,7 @@ func TodosByUserIDs(db *gorm.DB) *dataloader_gen.TodoLoader {
 		Fetch: func(keys []int) ([][]*model.Todo, []error) {
 
 			var records []*model.Todo
-			if err := db.Debug().Where("user_id IN ?", keys).Find(&records).Error; err != nil {
+			if err := db.Where("user_id IN ?", keys).Find(&records).Error; err != nil {
 				return nil, []error{err}
 			}
 

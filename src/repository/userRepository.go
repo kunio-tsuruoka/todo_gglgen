@@ -6,6 +6,7 @@ import (
 type UserRepository interface {
 	Save(user *model.User) (*model.User, error)
 	GetAll() ([]*model.User, error)
+	GetAllByUserIDs(ids []int) ([]*model.User, error)
 	Update(input model.UpdateUser) (bool,error)
 	FindOne(id int) (*model.User, error)
 	Destroy(id int) (*model.User, error)
@@ -54,4 +55,12 @@ func (repo *userRepository)Destroy(id int) (*model.User, error) {
 		return nil, err
 	}	
 	return user, nil
+}
+
+func (repo *userRepository)GetAllByUserIDs(ids []int) ([]*model.User, error) {
+	var users []*model.User
+	if err := repo.db.Find(&users, ids).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
 }
